@@ -9,7 +9,7 @@ declare var google: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
@@ -21,8 +21,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Wait for the Google script to load before initializing
-    const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
-    
+    const scriptElement = document.querySelector(
+      'script[src="https://accounts.google.com/gsi/client"]'
+    );
+
     if (scriptElement) {
       scriptElement.addEventListener('load', () => {
         this.initializeGoogleLogin();
@@ -40,28 +42,29 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   private initializeGoogleLogin() {
     google.accounts.id.initialize({
-      client_id: '157884516708-62o1ul9e48l6rd3tdqao2dq5tg4fnpg3.apps.googleusercontent.com',
+      client_id:
+        '157884516708-62o1ul9e48l6rd3tdqao2dq5tg4fnpg3.apps.googleusercontent.com',
       callback: (resp: any) => {
         console.log(resp);
         this.handleLogin(resp);
-      }
+      },
     });
-    google.accounts.id.renderButton(document.getElementById("google-btn"), {
+    google.accounts.id.renderButton(document.getElementById('google-btn'), {
       theme: 'filled_blue',
       size: 'large',
       shape: 'rectangle',
-      width: 250
+      width: 250,
     });
   }
 
   private decodeToken(token: string) {
-    return JSON.parse(atob(token.split(".")[1]));
+    return JSON.parse(atob(token.split('.')[1]));
   }
 
   handleLogin(response: any) {
     if (response) {
       const payload = this.decodeToken(response.credential);
-      sessionStorage.setItem("loggedInUser", JSON.stringify(payload));
+      sessionStorage.setItem('loggedInUser', JSON.stringify(payload));
       this.router.navigate(['browse']);
     }
   }
