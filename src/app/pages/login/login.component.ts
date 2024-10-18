@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 declare var google: any;
 
@@ -42,8 +43,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   private initializeGoogleLogin() {
     google.accounts.id.initialize({
-      client_id:
-        '157884516708-62o1ul9e48l6rd3tdqao2dq5tg4fnpg3.apps.googleusercontent.com',
+      client_id: environment.clientID,
       callback: (resp: any) => {
         console.log(resp);
         this.handleLogin(resp);
